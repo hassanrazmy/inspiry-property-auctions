@@ -33,8 +33,14 @@ function ipa_auction_display( $content ) {
         $current_value = $current_bid['current_amount'];
     }
     if( is_user_logged_in() ) {
-        if (isset($_POST['ipa_bid_updated']) && $_POST['ipa_bid_updated'] == 'true') {
-            if (!isset($_POST['ipa_bid_nonce']) || !wp_verify_nonce($_POST['ipa_bid_nonce'], 'ipa_new_bid_nonce')) {
+        if (
+            isset($_POST['ipa_bid_updated']) &&
+            $_POST['ipa_bid_updated'] == 'true'
+        ) {
+            if (
+                !isset($_POST['ipa_bid_nonce']) ||
+                ! wp_verify_nonce($_POST['ipa_bid_nonce'], 'ipa_new_bid_nonce')
+            ) {
                 $ipa_result = esc_html__('Invalid nonce!');
             } else {
                 if (
@@ -70,27 +76,27 @@ function ipa_auction_display( $content ) {
                     $auction_bids_array['ipa_bid_time'] = $time_now;
                     $additional_data = esc_html__('Additional Details', 'inspiry-property-auctions') . "\n <br>";
 
-                    if (isset($_POST['ipa_subject_to_finance'])) {
+                    if ( isset( $_POST['ipa_subject_to_finance'] ) ) {
                         $auction_bids_array['ipa_subject_to_finance'] = $_POST['ipa_subject_to_finance'];
                         $additional_data = 'Onder voorbehoud financiering: ' . $_POST['ipa_subject_to_finance'] . "\n <br>";
                     }
-                    if (isset($_POST['ipa_building_inspection'])) {
+                    if ( isset( $_POST['ipa_building_inspection'] ) ) {
                         $auction_bids_array['ipa_building_inspection'] = $_POST['ipa_building_inspection'];
                         $additional_data .= 'Onder voorbehoud bouwkundige keuring: ' . $_POST['ipa_building_inspection'] . "\n <br>";
                     }
-                    if (isset($_POST['ipa_sale_property'])) {
+                    if ( isset( $_POST['ipa_sale_property'] ) ) {
                         $auction_bids_array['ipa_sale_property'] = $_POST['ipa_sale_property'];
                         $additional_data .= 'Onder voorbehoud verkoop eigen woning: ' . $_POST['ipa_sale_property'] . "\n <br>";
                     }
-                    if (isset($_POST['ipa_preferred_transfer_date'])) {
+                    if ( isset( $_POST['ipa_preferred_transfer_date'] ) ) {
                         $auction_bids_array['ipa_preferred_transfer_date'] = $_POST['ipa_preferred_transfer_date'];
                         $additional_data .= 'Voorkeur overdrachtsdatum: ' . $_POST['ipa_preferred_transfer_date'] . "\n <br>";
                     }
-                    if (isset($_POST['ipa_going_to_view'])) {
+                    if ( isset( $_POST['ipa_going_to_view'] ) ) {
                         $auction_bids_array['ipa_going_to_view'] = $_POST['ipa_going_to_view'];
                         $additional_data .= "Bezichtigd/gaat bezichtigen: " . $_POST['ipa_going_to_view'] . "\n <br>";
                     }
-                    if (isset($_POST['ipa_using_own_money'])) {
+                    if ( isset( $_POST['ipa_using_own_money'] ) ) {
                         $auction_bids_array['ipa_using_own_money'] = $_POST['ipa_using_own_money'];
                         $additional_data .= "Gebruik je (ook) eigen geld voor de aankoop?: " . $_POST['ipa_using_own_money'] . "\n <br>";
                     }
@@ -163,10 +169,10 @@ function ipa_auction_display( $content ) {
                             ere_format_amount( $current_value ) .
                             '</h5>';
                     } else {
-                        $html .= '<h5>' .
-                            esc_html__( 'Current Bid:  ', 'inspiry-property-auctions' ) .
-                            ere_format_amount( $auction_starting_price ) .
-                            '</h5>';
+//                        $html .= '<h5>' .
+//                            esc_html__( 'Current Bid:  ', 'inspiry-property-auctions' ) .
+//                            ere_format_amount( $auction_starting_price ) .
+//                            '</h5>';
                         $html .= '<h5>' . esc_html__( 'Be the first to bid.', 'inspiry-property-auctions' ) . '</h5>';
                     }
 
@@ -176,8 +182,8 @@ function ipa_auction_display( $content ) {
                         '</h6>';
 
                     if( ! empty( $auction_end_date ) ){
-                        $ending_on = date("d M yy - h:s a", strtotime($auction_end_date));
-                        $html .= '<h6>' . esc_html__( 'Auction ending on ' ) . esc_html( $ending_on ) . '</h6>';
+                        $ending_on = date("d M Y - h:s a", strtotime( $auction_end_date ) );
+                        $html .= '<h6>' . esc_html__( 'End in: ' ) . esc_html( $ending_on ) . '</h6>';
                     }
                 }
             $html .= '</div>';
@@ -266,7 +272,7 @@ function ipa_auction_display( $content ) {
                     '</p>';
 
                 $html .= '<div class="bid-field-wrap">';
-                $html .= '<input type="number" name="new-bid-value" placeholder="' . esc_html__('Add Amount', 'inspiry-property-auctions') . '">';
+                $html .= '<input type="number" name="new-bid-value" placeholder="' . esc_html__('Add Amount', 'inspiry-property-auctions') . '" required>';
                 $html .= '<input type="hidden" name="ipa_bid_updated" value="true">';
                 $html .= '<input type="hidden" name="current_user_id" value="' . esc_html($current_user_id) . '">';
                 $html .= '<input type="hidden" name="ipa_bid_nonce" value="' . wp_create_nonce('ipa_new_bid_nonce') . '">';
@@ -281,7 +287,17 @@ function ipa_auction_display( $content ) {
                 $html .= '<p>' . esc_html__('Auction ended!', 'inspiry-property-auctions') . ' </p>';
             }
         } else {
-            $html .= '<p class="text-center">' . esc_html__('Login to bid!', 'inspiry-property-auctions') . ' </p>';
+            $current_URL = get_permalink( $post_id );
+            $html .= '<p class="text-center login-register">' .
+                esc_html__('You need to ', 'inspiry-property-auctions') .
+                '<a href="' . esc_url( wp_login_url( $current_URL ) ) . '">' .
+                esc_html__('Login', 'inspiry-property-auctions') .
+                '</a>/' .
+                '<a href="' . esc_url( wp_registration_url() ) . '">' .
+                esc_html__('Register', 'inspiry-property-auctions') .
+                '</a> ' .
+                esc_html__('to bid!', 'inspiry-property-auctions') .
+                ' </p>';
         }
 
         $html .= '</div>';

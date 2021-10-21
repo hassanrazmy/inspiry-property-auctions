@@ -95,6 +95,14 @@
     line-height: 30px;
 }
 
+.ipa-auction-wrap .login-register a {
+    color: #ec894d;
+}
+
+.ipa-auction-wrap .login-register a:hover {
+    color: #222222;
+}
+
 #overview .property-item .ipa-auction-wrap .ipa-error,
 .ipa-auction-wrap .ipa-error {
     color: red;
