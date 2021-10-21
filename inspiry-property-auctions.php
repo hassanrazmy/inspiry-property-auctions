@@ -154,7 +154,7 @@ if ( ! class_exists( 'Inspiry_Property_Auctions' ) ) :
 		 * Enqueue Admin JavaScript
 		 */
 		public function enqueue_admin_scripts() {
-			wp_enqueue_script('inspiry-property-auctions-admin', IPA_PLUGIN_URL . 'js/ipa-admin.js', array('jquery',), $this->version);
+			wp_enqueue_script('inspiry-property-auctions-admin', IPA_PLUGIN_URL . 'js/ipa-admin.js', array('jquery',), $this->version, true);
 		}
 
         /**

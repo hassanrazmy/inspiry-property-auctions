@@ -2,3 +2,33 @@
 #ipa_auction_bids_list_meta table strong {
     text-transform: capitalize;
 }
+
+#ipa_auction_bids_list_meta .reset-button-wrap a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    background: #cc1818;
+    border-color: #cc1818;
+    color: #fff;
+    text-shadow: none;
+    transition: all 200ms linear;
+}
+#ipa_auction_bids_list_meta .reset-button-wrap a:hover {
+    background: #fb3838;
+    border-color: #fb3838;
+}
+
+#ipa_auction_bids_list_meta .reset-button-wrap {
+    text-align: right;
+}
